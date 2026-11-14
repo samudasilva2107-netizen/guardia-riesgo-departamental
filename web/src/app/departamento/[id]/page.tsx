@@ -114,6 +114,12 @@ export default function DepartamentoPage({ params }: Props) {
             maximoHistorico={dept.maximo_historico}
             zonaRef={zonaInfo}
           />
+
+          {dept.semanas_nucleo.length > 20 && (
+            <p className="text-[15px] text-navy-70 pt-2 border-t border-linea leading-relaxed">
+              Régimen bimodal: la actividad se reparte en dos ventanas del año y el acumulado histórico está dominado por los años extremos de sequía. La temporada de referencia de la zona describe el modo normal, no el extremo.
+            </p>
+          )}
         </div>
 
         {/* 3 Bloques métricos */}
