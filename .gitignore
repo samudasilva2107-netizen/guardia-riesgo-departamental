@@ -47,3 +47,7 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Local raw cache
+cache_firms/
+web/.vercel/
