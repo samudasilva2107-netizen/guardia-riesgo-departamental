@@ -1,0 +1,22 @@
+{
+  "ibera": {
+    "nombre": "Humedales del Iberá",
+    "temporada_ref": [27, 40],
+    "pico_ref": [35, 37]
+  },
+  "delta": {
+    "nombre": "Delta del Paraná",
+    "temporada_ref": [27, 44],
+    "pico_ref": [31, 37]
+  },
+  "sierras": {
+    "nombre": "Sierras y WUI",
+    "temporada_ref": [31, 45],
+    "pico_ref": [36, 42]
+  },
+  "agro": {
+    "nombre": "Agro y rastrojo",
+    "temporada_ref": [22, 32],
+    "pico_ref": [24, 28]
+  }
+}
