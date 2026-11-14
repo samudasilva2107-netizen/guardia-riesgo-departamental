@@ -4,30 +4,51 @@
     {
       "name": "MODIS Collection 6.1",
       "resolution": "1 km",
-      "satellites": ["Terra", "Aqua"]
+      "satellites": [
+        "Terra",
+        "Aqua"
+      ]
     },
     {
       "name": "VIIRS Collection 2",
       "resolution": "375 m",
-      "satellites": ["NOAA-20", "NOAA-21"]
+      "satellites": [
+        "NOAA-20",
+        "NOAA-21"
+      ]
     }
   ],
   "provincias": [
     {
       "nombre": "Corrientes",
-      "bbox": [-59.30, -30.90, -55.60, -27.20],
+      "bbox": [
+        -59.3,
+        -30.9,
+        -55.6,
+        -27.2
+      ],
       "departamentos_count": 25,
       "zona_primaria": "ibera"
     },
     {
       "nombre": "Córdoba",
-      "bbox": [-65.80, -35.10, -61.70, -29.40],
+      "bbox": [
+        -65.8,
+        -35.1,
+        -61.7,
+        -29.4
+      ],
       "departamentos_count": 26,
       "zona_primaria": "sierras"
     },
     {
       "nombre": "Entre Ríos",
-      "bbox": [-60.90, -34.10, -57.60, -29.90],
+      "bbox": [
+        -60.9,
+        -34.1,
+        -57.6,
+        -29.9
+      ],
       "departamentos_count": 17,
       "zona_primaria": "delta"
     }
@@ -42,5 +63,21 @@
       "reason": "Cesó transmisiones operativas el 2026-11-02 13:00 UTC (alerta oficial NASA Earthdata)"
     }
   ],
-  "created_at": "2026-11-14T13:30:00Z"
+  "created_at": "2026-11-14T13:30:00Z",
+  "downloaded_at": "2026-11-14T16:44:04Z",
+  "rows": {
+    "corrientes": {
+      "modis": 191882,
+      "viirs": 296407
+    },
+    "cordoba": {
+      "modis": 94776,
+      "viirs": 100521
+    },
+    "entre_rios": {
+      "modis": 121848,
+      "viirs": 240562
+    }
+  },
+  "files_scanned": 3323
 }
