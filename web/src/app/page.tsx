@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Header, Footer } from "@/components/Header";
 import { ChoroplethMap } from "@/components/ChoroplethMap";
-import { CalendarioData, getGiniNivel } from "@/lib/types";
+import { CalendarioData, getGiniNivel, getMesSemana } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
 
@@ -181,7 +181,8 @@ export default function HomePage() {
                   >
                     Detecciones {ordenCampo === "total" && (ordenAsc ? "↑" : "↓")}
                   </th>
-                  <th className="py-3 px-4 text-center">Semana Pico</th>
+                  <th className="py-3 px-4 text-center">Semana Típica</th>
+                  <th className="py-3 px-4 text-center">Máximo Histórico</th>
                   <th className="py-3 px-4 text-center">Semanas Núcleo</th>
                   <th
                     className="py-3 px-4 text-center cursor-pointer hover:text-navy"
@@ -215,7 +216,10 @@ export default function HomePage() {
                         {d.total.toLocaleString()}
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs">
-                        Sem. {d.semana_pico.semana} ({d.semana_pico.anio})
+                        Sem. {d.semana_tipica.semana} ({getMesSemana(d.semana_tipica.semana)})
+                      </td>
+                      <td className="py-2.5 px-4 text-center font-mono text-xs text-navy-70">
+                        s{d.maximo_historico.semana}/{d.maximo_historico.anio} ({d.maximo_historico.detecciones.toLocaleString()})
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs text-navy-70">
                         {d.semanas_nucleo.length} semanas

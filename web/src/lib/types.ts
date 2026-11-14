@@ -4,9 +4,14 @@ export interface SemanaData {
   anios: number[];
 }
 
-export interface SemanaPico {
+export interface MaximoHistorico {
   semana: number;
   anio: number;
+  detecciones: number;
+}
+
+export interface SemanaTipica {
+  semana: number;
   detecciones: number;
 }
 
@@ -25,7 +30,8 @@ export interface Departamento {
   total: number;
   gini: number;
   semanas_nucleo: number[];
-  semana_pico: SemanaPico;
+  semana_tipica: SemanaTipica;
+  maximo_historico: MaximoHistorico;
   semanas: SemanaData[];
   anomalias: Anomalia[];
 }
@@ -88,4 +94,14 @@ export function getRecomendacionOperativa(nucleoLen: number, semanasNucleo: numb
     return `Temporada definida: guardias activas en el núcleo (semanas ${minW}-${maxW}) y refuerzo preventivo en los bordes.`;
   }
   return "Régimen disperso: no hay ventana única; la estrategia tiene que ser preventiva y permanente durante todo el ciclo.";
+}
+
+const MESES_ES = [
+  "enero", "febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+];
+
+export function getMesSemana(semanaIso: number): string {
+  const mesIdx = Math.min(11, Math.max(0, Math.floor(((semanaIso - 1) * 12) / 53)));
+  return MESES_ES[mesIdx];
 }

@@ -111,10 +111,20 @@ def compute_departamento(dept_meta, weekly_by_year):
     else:
         nucleo = []
 
-    semana_pico = {
+    maximo_historico = {
         "semana": best_pair[0],
         "anio": best_pair[1] if best_val > 0 else 0,
         "detecciones": max(0, best_val),
+    }
+
+    if total > 0:
+        tipica_w, tipica_n = max(((w + 1, cum_week[w]) for w in range(53)), key=lambda x: x[1])
+    else:
+        tipica_w, tipica_n = 1, 0
+
+    semana_tipica = {
+        "semana": tipica_w,
+        "detecciones": tipica_n,
     }
 
     # Anomalías: semana(d, y, w) > p90 de S(d, w) con años estrictamente anteriores a y (>= 5 años previos)
@@ -154,7 +164,8 @@ def compute_departamento(dept_meta, weekly_by_year):
         "total": total,
         "gini": gini,
         "semanas_nucleo": nucleo,
-        "semana_pico": semana_pico,
+        "semana_tipica": semana_tipica,
+        "maximo_historico": maximo_historico,
         "semanas": semanas_list,
         "anomalias": anomalias[:30],
     }

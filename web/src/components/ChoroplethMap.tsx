@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Departamento, getGiniNivel } from "@/lib/types";
+import { Departamento, getGiniNivel, getMesSemana } from "@/lib/types";
 import mapaData from "@/lib/mapa_paths.json";
 
 interface ChoroplethMapProps {
@@ -139,7 +139,10 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
                 )}
               </div>
               <div>
-                Semana pico: <strong>Sem. {hoveredDept.semana_pico.semana} ({hoveredDept.semana_pico.anio})</strong>
+                Semana típica: <strong>Sem. {hoveredDept.semana_tipica.semana} ({getMesSemana(hoveredDept.semana_tipica.semana)})</strong>
+              </div>
+              <div>
+                Máximo histórico: <strong>s{hoveredDept.maximo_historico.semana}/{hoveredDept.maximo_historico.anio} ({hoveredDept.maximo_historico.detecciones.toLocaleString()})</strong>
               </div>
             </div>
           </div>

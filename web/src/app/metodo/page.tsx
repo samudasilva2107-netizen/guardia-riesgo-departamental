@@ -38,7 +38,10 @@ export default function MetodoPage() {
             </p>
             <ul className="list-disc pl-5 space-y-2">
               <li>
-                <strong>Agregación semanal:</strong> Se asignó cada detección satelital a su polígono departamental oficial mediante Point-in-Polygon y se agregaron las detecciones por semana ISO (1 a 53).
+                <strong>Asignación espacial:</strong> Se asignó cada detección satelital a su polígono departamental oficial mediante Point-in-Polygon y se agregaron las detecciones por semana ISO (1 a 53). De los 1.045.996 focos leídos en los bounding boxes rectangulares de las 3 provincias, se conservaron <strong>694.201</strong> dentro de las jurisdicciones y se descartaron los <strong>351.795 focos (33,63 %)</strong> que cayeron fuera de los 68 polígonos departamentales (provincias vecinas y países limítrofes).
+              </li>
+              <li>
+                <strong>Semana típica vs. Máximo histórico:</strong> La <em>semana típica</em> es la semana ISO con mayor acumulado a lo largo de toda la serie (representa cuándo se concentra normalmente el fuego). El <em>máximo histórico</em> indica la semana y el año puntual con el récord absoluto de detecciones (por ejemplo, eventos extremos como la sequía de 2022 en el Iberá).
               </li>
               <li>
                 <strong>Núcleo Crítico (80%):</strong> Se ordenaron las 53 semanas de mayor a menor según su acumulación histórica de detecciones hasta alcanzar el 80% del total. Este umbral no es arbitrario: ningún servicio de defensa civil o brigada puede sostener alerta máxima todo el año. Si un departamento concentra el 80% en 8 semanas, la logística se enfoca allí; si requiere 35 semanas, el régimen es disperso y exige planes permanentes.
@@ -60,16 +63,16 @@ export default function MetodoPage() {
           </h2>
           <div className="space-y-2 text-sm text-navy leading-relaxed">
             <p>
-              ❌ <strong>No predice incendios:</strong> Describe la concentración y estacionalidad histórica observada.
+              <strong className="font-mono text-alerta mr-1">NO</strong> <strong>predice incendios:</strong> Describe la concentración y estacionalidad histórica observada.
             </p>
             <p>
-              ❌ <strong>No es tiempo real:</strong> Los registros satelitales son near-real-time y la aplicación evalúa ciclos históricos consolidados.
+              <strong className="font-mono text-alerta mr-1">NO</strong> <strong>es tiempo real:</strong> Los registros satelitales son near-real-time y la aplicación evalúa ciclos históricos consolidados.
             </p>
             <p>
-              ❌ <strong>No es superficie quemada ni precisión validada en campo:</strong> El sensor satelital detecta anomalías térmicas activas en el instante de sobrepaso orbital; no mide hectáreas finales quemadas.
+              <strong className="font-mono text-alerta mr-1">NO</strong> <strong>es superficie quemada ni precisión validada en campo:</strong> El sensor satelital detecta anomalías térmicas activas en el instante de sobrepaso orbital; no mide hectáreas finales quemadas.
             </p>
             <p>
-              ❌ <strong>Los saltos entre épocas satelitales no son más incendios:</strong> En los datos reales hay dos épocas: <strong>antes de abril de 2018</strong> (solo MODIS Terra/Aqua, 1 km) y <strong>desde abril de 2018</strong> (MODIS + VIIRS NOAA-20/21 a 375 m; Suomi-NPP excluido).
+              <strong className="font-mono text-alerta mr-1">NO</strong> <strong>hubo más incendios por los saltos entre épocas satelitales:</strong> En los datos reales hay dos épocas: <strong>antes de abril de 2018</strong> (solo MODIS Terra/Aqua, 1 km) y <strong>desde abril de 2018</strong> (MODIS + VIIRS NOAA-20/21 a 375 m; Suomi-NPP excluido).
             </p>
           </div>
         </section>

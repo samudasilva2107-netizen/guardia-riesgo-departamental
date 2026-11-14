@@ -17,13 +17,11 @@ export default function CompararPage() {
   const deptA = data.departamentos.find((d) => d.id === idA) || data.departamentos[0];
   const deptB = data.departamentos.find((d) => d.id === idB) || data.departamentos[1];
 
-  const diffPico = Math.abs(deptA.semana_pico.semana - deptB.semana_pico.semana);
+  const diffTipica = Math.abs(deptA.semana_tipica.semana - deptB.semana_tipica.semana);
   const conclusion =
-    diffPico === 0
-      ? `Ambos departamentos alcanzan su pico histórico en la misma semana (Semana ${deptA.semana_pico.semana}).`
-      : diffPico > 0
-      ? `Las temporadas no coinciden plenamente: el pico histórico de ${deptA.nombre} (Sem. ${deptA.semana_pico.semana}) difiere por ${diffPico} semanas respecto al de ${deptB.nombre} (Sem. ${deptB.semana_pico.semana}).`
-      : "";
+    diffTipica === 0
+      ? `Ambos departamentos alcanzan su semana típica en el mismo período (Semana ${deptA.semana_tipica.semana}).`
+      : `Las temporadas no coinciden plenamente: la semana típica de ${deptA.nombre} (Sem. ${deptA.semana_tipica.semana}) difiere por ${diffTipica} semanas respecto a la de ${deptB.nombre} (Sem. ${deptB.semana_tipica.semana}).`;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -80,7 +78,8 @@ export default function CompararPage() {
               <WeeklyBar
                 semanas={deptA.semanas}
                 semanasNucleo={deptA.semanas_nucleo}
-                semanaPico={deptA.semana_pico}
+                semanaTipica={deptA.semana_tipica}
+                maximoHistorico={deptA.maximo_historico}
                 zonaRef={zonas[deptA.zona]}
               />
             </div>
@@ -115,7 +114,8 @@ export default function CompararPage() {
               <WeeklyBar
                 semanas={deptB.semanas}
                 semanasNucleo={deptB.semanas_nucleo}
-                semanaPico={deptB.semana_pico}
+                semanaTipica={deptB.semana_tipica}
+                maximoHistorico={deptB.maximo_historico}
                 zonaRef={zonas[deptB.zona]}
               />
             </div>

@@ -4,8 +4,8 @@ import { Header, Footer } from "@/components/Header";
 import { WeeklyBar } from "@/components/WeeklyBar";
 import {
   CalendarioData,
-  Departamento,
   getGiniNivel,
+  getMesSemana,
   getRecomendacionOperativa,
   ZonaRef,
 } from "@/lib/types";
@@ -110,7 +110,8 @@ export default function DepartamentoPage({ params }: Props) {
           <WeeklyBar
             semanas={dept.semanas}
             semanasNucleo={dept.semanas_nucleo}
-            semanaPico={dept.semana_pico}
+            semanaTipica={dept.semana_tipica}
+            maximoHistorico={dept.maximo_historico}
             zonaRef={zonaInfo}
           />
         </div>
@@ -141,21 +142,22 @@ export default function DepartamentoPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Bloque 2: Semana Pico */}
+          {/* Bloque 2: Semana Típica y Máximo Histórico */}
           <div className="bg-papel border border-linea rounded-card p-5 relative">
             <div className="h-[2px] bg-alerta absolute top-0 left-0 right-0 rounded-t-card" />
             <span className="text-[10px] uppercase font-bold tracking-widest text-navy-70 font-mono">
-              Semana Pico Histórica
+              Semana Típica vs. Máximo Histórico
             </span>
-            <div className="font-anton text-3xl text-alerta mt-2">
-              Semana {dept.semana_pico.semana}
+            <div className="font-anton text-3xl text-navy mt-2">
+              Sem. {dept.semana_tipica.semana} ({getMesSemana(dept.semana_tipica.semana)})
             </div>
-            <p className="text-xs text-navy-70 mt-2">
-              Mayor intensidad registrada en un solo ciclo:
+            <p className="text-xs text-navy-70 mt-1">
+              Mayor acumulado histórico: <strong>{dept.semana_tipica.detecciones.toLocaleString()}</strong> detecciones sumadas en toda la serie.
             </p>
-            <div className="mt-2 font-mono text-sm text-navy">
-              <strong>{dept.semana_pico.detecciones.toLocaleString()}</strong> focos en el año{" "}
-              <strong>{dept.semana_pico.anio}</strong>
+            <div className="mt-3 pt-2 border-t border-linea font-mono text-xs text-navy">
+              <span className="text-alerta font-bold">Máximo histórico:</span>{" "}
+              s{dept.maximo_historico.semana}/{dept.maximo_historico.anio} con{" "}
+              <strong>{dept.maximo_historico.detecciones.toLocaleString()}</strong> detecciones
             </div>
           </div>
 

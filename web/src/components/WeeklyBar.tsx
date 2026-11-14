@@ -3,11 +3,12 @@ import { Departamento, ZonaRef } from "@/lib/types";
 interface WeeklyBarProps {
   semanas: Departamento["semanas"];
   semanasNucleo: number[];
-  semanaPico: Departamento["semana_pico"];
+  semanaTipica: Departamento["semana_tipica"];
+  maximoHistorico: Departamento["maximo_historico"];
   zonaRef?: ZonaRef;
 }
 
-export function WeeklyBar({ semanas, semanasNucleo, semanaPico, zonaRef }: WeeklyBarProps) {
+export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistorico, zonaRef }: WeeklyBarProps) {
   // Asegurar 53 semanas
   const safeWeeks = Array.from({ length: 53 }, (_, i) => {
     const wNum = i + 1;
@@ -54,7 +55,8 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaPico, zonaRef }: Weekl
         <div className="relative z-10 w-full h-full flex items-end justify-between gap-[2px]">
           {safeWeeks.map((s) => {
             const isNucleo = nucleoSet.has(s.w);
-            const isPico = s.w === semanaPico.semana;
+            const isTipica = s.w === semanaTipica.semana;
+            const isMaxHist = s.w === maximoHistorico.semana;
             const heightPct = Math.max((s.n / maxVal) * 100, 3);
 
             return (
@@ -66,12 +68,13 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaPico, zonaRef }: Weekl
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-1 z-30 pointer-events-none bg-navy text-crema text-[11px] font-mono px-2 py-1 rounded shadow whitespace-nowrap">
                   Semana {s.w}: {s.n.toLocaleString()} detecciones
                   {isNucleo && " (Núcleo 80%)"}
-                  {isPico && " ★ Pico"}
+                  {isTipica && " [Semana Típica]"}
+                  {isMaxHist && " [Máx. Histórico]"}
                 </div>
 
                 <div
                   className={`w-full rounded-t-sm transition-all ${
-                    isPico
+                    isTipica
                       ? "bg-alerta"
                       : isNucleo
                       ? "bg-mostaza"
@@ -102,7 +105,7 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaPico, zonaRef }: Weekl
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 bg-alerta inline-block rounded-xs" />
-          <span>Semana Pico Histórica</span>
+          <span>Semana Típica (máx. acumulado)</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 bg-navy/20 inline-block rounded-xs" />
