@@ -1,3 +1,5 @@
+import { Lang, translate } from "./i18n";
+
 export interface SemanaData {
   w: number;
   n: number;
@@ -52,48 +54,48 @@ export interface CalendarioData {
   departamentos: Departamento[];
 }
 
-export type GiniNivel = "CRÍTICO" | "ALTO" | "MEDIO" | "BAJO";
+export type GiniNivel = "CRÍTICO" | "ALTO" | "MEDIO" | "BAJO" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 
-export function getGiniNivel(gini: number): { nivel: GiniNivel; color: string; desc: string } {
+export function getGiniNivel(gini: number, lang: Lang = "es"): { nivel: GiniNivel; color: string } {
   if (gini >= 0.75) {
     return {
-      nivel: "CRÍTICO",
+      nivel: translate(lang, "nivel.critico") as GiniNivel,
       color: "border-alerta text-alerta bg-red-50",
-      desc: "Ventana hiper-reducida (4-6 semanas), movilización concentrada",
     };
   }
   if (gini >= 0.60) {
     return {
-      nivel: "ALTO",
+      nivel: translate(lang, "nivel.alto") as GiniNivel,
       color: "border-mostaza text-navy bg-amber-50",
-      desc: "Temporada definida (8-12 semanas), esquema clásico",
     };
   }
   if (gini >= 0.45) {
     return {
-      nivel: "MEDIO",
+      nivel: translate(lang, "nivel.medio") as GiniNivel,
       color: "border-navy-70 text-navy bg-blue-50/30",
-      desc: "Varios picos, programas mixtos",
     };
   }
   return {
-    nivel: "BAJO",
+    nivel: translate(lang, "nivel.bajo") as GiniNivel,
     color: "border-linea text-navy-70 bg-stone-100",
-    desc: "Actividad continua, gestión permanente",
   };
 }
 
-export function getRecomendacionOperativa(nucleoLen: number, semanasNucleo: number[]): string {
-  const minW = Math.min(...semanasNucleo);
-  const maxW = Math.max(...semanasNucleo);
+export function getRecomendacionOperativa(
+  nucleoLen: number,
+  semanasNucleo: number[],
+  lang: Lang = "es"
+): string {
+  const minW = semanasNucleo.length > 0 ? Math.min(...semanasNucleo) : 1;
+  const maxW = semanasNucleo.length > 0 ? Math.max(...semanasNucleo) : 53;
 
   if (nucleoLen <= 10) {
-    return `Ventana compacta: conviene concentrar brigadas y prohibición de quemas entre las semanas ${minW} y ${maxW}.`;
+    return translate(lang, "dir.compacta", { a: minW, b: maxW });
   }
   if (nucleoLen <= 20) {
-    return `Temporada definida: guardias activas en el núcleo (semanas ${minW}-${maxW}) y refuerzo preventivo en los bordes.`;
+    return translate(lang, "dir.definida", { a: minW, b: maxW });
   }
-  return "Régimen disperso: no hay ventana única; la estrategia tiene que ser preventiva y permanente durante todo el ciclo.";
+  return translate(lang, "dir.dispersa");
 }
 
 const MESES_ES = [
@@ -101,15 +103,21 @@ const MESES_ES = [
   "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
 ];
 
-export function getMesSemana(semanaIso: number): string {
+const MESES_EN = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+export function getMesSemana(semanaIso: number, lang: Lang = "es"): string {
   const mesIdx = Math.min(11, Math.max(0, Math.floor(((semanaIso - 1) * 12) / 53)));
-  return MESES_ES[mesIdx];
+  return lang === "en" ? MESES_EN[mesIdx] : MESES_ES[mesIdx];
 }
 
-export function formatInt(n: number): string {
-  return n.toLocaleString("es-AR");
+export function formatInt(n: number, lang: Lang = "es"): string {
+  return n.toLocaleString(lang === "en" ? "en-US" : "es-AR");
 }
 
-export function formatGini(g: number): string {
-  return g.toFixed(2).replace(".", ",");
+export function formatGini(g: number, lang: Lang = "es"): string {
+  const fixed = g.toFixed(2);
+  return lang === "en" ? fixed : fixed.replace(".", ",");
 }

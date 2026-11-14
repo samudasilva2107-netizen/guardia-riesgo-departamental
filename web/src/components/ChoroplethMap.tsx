@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Departamento, formatGini, formatInt, getGiniNivel, getMesSemana } from "@/lib/types";
+import { useLanguage } from "@/components/LanguageProvider";
 import mapaData from "@/lib/mapa_paths.json";
 
 interface ChoroplethMapProps {
@@ -19,6 +20,7 @@ function getGiniFillColor(gini: number): string {
 
 export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps) {
   const router = useRouter();
+  const { lang, t } = useLanguage();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
@@ -31,7 +33,7 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
   }, [departamentos]);
 
   const hoveredDept = hoveredId ? deptById.get(hoveredId) : null;
-  const hoveredSemaforo = hoveredDept ? getGiniNivel(hoveredDept.gini) : null;
+  const hoveredSemaforo = hoveredDept ? getGiniNivel(hoveredDept.gini, lang) : null;
 
   return (
     <div className="bg-papel border border-linea rounded-card p-5 relative">
@@ -40,10 +42,10 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
         <div>
           <h2 className="font-anton text-2xl uppercase tracking-wide text-navy m-0">
-            Mapa Coroplético de Concentración (Gini)
+            {t("map.title")}
           </h2>
           <p className="text-xs text-navy-70 mt-0.5">
-            68 departamentos · Color según índice de Gini (tramos del semáforo). Clic en un polígono para abrir su ficha.
+            {t("map.sub", { n: departamentos.length })}
           </p>
         </div>
 
@@ -51,19 +53,19 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
         <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono text-navy">
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 inline-block border border-navy/30" style={{ backgroundColor: "#C62828" }} />
-            <span>Crítico (≥0,75)</span>
+            <span>{t("map.legend.critico", { v: formatGini(0.75, lang) })}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 inline-block border border-navy/30" style={{ backgroundColor: "#F6B50C" }} />
-            <span>Alto (0,60–0,75)</span>
+            <span>{t("map.legend.alto", { a: formatGini(0.60, lang), b: formatGini(0.75, lang) })}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 inline-block border border-navy/30" style={{ backgroundColor: "#4A5878" }} />
-            <span>Medio (0,45–0,60)</span>
+            <span>{t("map.legend.medio", { a: formatGini(0.45, lang), b: formatGini(0.60, lang) })}</span>
           </div>
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 inline-block border border-navy/30" style={{ backgroundColor: "#D9CFB8" }} />
-            <span>Bajo (&lt;0,45)</span>
+            <span>{t("map.legend.bajo", { v: formatGini(0.45, lang) })}</span>
           </div>
         </div>
       </div>
@@ -84,7 +86,7 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
           viewBox={`0 0 ${mapaData.width} ${mapaData.height}`}
           className="w-full max-w-3xl h-auto max-h-[460px] select-none"
           role="img"
-          aria-label="Mapa coroplético de los 68 departamentos por índice de Gini"
+          aria-label={t("map.aria")}
         >
           {mapaData.paths.map((item) => {
             const dept = deptById.get(item.id);
@@ -113,7 +115,7 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
         {/* Tooltip flotante (único lugar donde se permite sombra según guía de diseño) */}
         {hoveredDept && hoveredSemaforo && (
           <div
-            className="pointer-events-none absolute z-30 bg-navy text-crema px-3 py-2.5 rounded text-xs shadow-lg max-w-[260px]"
+            className="pointer-events-none absolute z-30 bg-navy text-crema px-3 py-2.5 rounded text-xs shadow-lg max-w-[270px]"
             style={{
               left: Math.min(mousePos.x + 14, 520),
               top: Math.max(mousePos.y - 14, 8),
@@ -123,26 +125,42 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
               {hoveredDept.nombre}
             </div>
             <div className="text-[11px] text-stone-300 mb-1.5">
-              {hoveredDept.provincia} · Zona {hoveredDept.zona.toUpperCase()}
+              {hoveredDept.provincia} · {t("zona.label", { z: hoveredDept.zona.toUpperCase() })}
             </div>
             <div className="font-mono text-[11px] space-y-0.5 border-t border-navy-70 pt-1.5">
               <div>
-                Concentración: <strong>{hoveredSemaforo.nivel}</strong> ({formatGini(hoveredDept.gini)})
+                {t("map.tooltip.conc")} <strong>{hoveredSemaforo.nivel}</strong> ({formatGini(hoveredDept.gini, lang)})
               </div>
               <div>
-                Núcleo crítico: <strong>{hoveredDept.semanas_nucleo.length} semanas</strong>
+                {t("map.tooltip.nucleo")} <strong>{t("table.semanas", { n: hoveredDept.semanas_nucleo.length })}</strong>
                 {hoveredDept.semanas_nucleo.length > 0 && (
                   <span className="text-stone-300">
                     {" "}
-                    (sem. {Math.min(...hoveredDept.semanas_nucleo)}–{Math.max(...hoveredDept.semanas_nucleo)})
+                    {t("map.tooltip.rango", {
+                      a: Math.min(...hoveredDept.semanas_nucleo),
+                      b: Math.max(...hoveredDept.semanas_nucleo),
+                    })}
                   </span>
                 )}
               </div>
               <div>
-                Semana típica: <strong>Sem. {hoveredDept.semana_tipica.semana} ({getMesSemana(hoveredDept.semana_tipica.semana)})</strong>
+                {t("map.tooltip.tipica")}{" "}
+                <strong>
+                  {t("table.semMes", {
+                    w: hoveredDept.semana_tipica.semana,
+                    mes: getMesSemana(hoveredDept.semana_tipica.semana, lang),
+                  })}
+                </strong>
               </div>
               <div>
-                Máximo histórico: <strong>Sem. {hoveredDept.maximo_historico.semana} · {hoveredDept.maximo_historico.anio} ({formatInt(hoveredDept.maximo_historico.detecciones)})</strong>
+                {t("map.tooltip.maximo")}{" "}
+                <strong>
+                  {t("table.semAnio", {
+                    w: hoveredDept.maximo_historico.semana,
+                    anio: hoveredDept.maximo_historico.anio,
+                  })}{" "}
+                  ({formatInt(hoveredDept.maximo_historico.detecciones, lang)})
+                </strong>
               </div>
             </div>
           </div>
@@ -150,7 +168,7 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
       </div>
 
       <p className="text-xs text-navy-70 mt-2.5">
-        El beige indica régimen disperso, no ausencia de datos.
+        {t("map.note")}
       </p>
     </div>
   );

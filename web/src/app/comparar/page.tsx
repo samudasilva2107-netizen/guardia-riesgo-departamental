@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { Header, Footer } from "@/components/Header";
 import { WeeklyBar } from "@/components/WeeklyBar";
+import { useLanguage } from "@/components/LanguageProvider";
 import { CalendarioData, formatInt, ZonaRef } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
 
 export default function CompararPage() {
+  const { lang, t } = useLanguage();
   const data = dataCalendario as CalendarioData;
   const zonas = dataZonas as Record<string, ZonaRef>;
 
@@ -20,8 +22,14 @@ export default function CompararPage() {
   const diffTipica = Math.abs(deptA.semana_tipica.semana - deptB.semana_tipica.semana);
   const conclusion =
     diffTipica === 0
-      ? `Ambos departamentos alcanzan su semana típica en el mismo período (Semana ${deptA.semana_tipica.semana}).`
-      : `Las temporadas no coinciden plenamente: la semana típica de ${deptA.nombre} (Sem. ${deptA.semana_tipica.semana}) difiere por ${diffTipica} semanas respecto a la de ${deptB.nombre} (Sem. ${deptB.semana_tipica.semana}).`;
+      ? t("comp.igual", { w: deptA.semana_tipica.semana })
+      : t("comp.distinto", {
+          a: deptA.nombre,
+          wa: deptA.semana_tipica.semana,
+          n: diffTipica,
+          b: deptB.nombre,
+          wb: deptB.semana_tipica.semana,
+        });
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -30,17 +38,17 @@ export default function CompararPage() {
       <main className="max-w-6xl mx-auto px-6 md:px-12 py-10 w-full space-y-8">
         <div>
           <h1 className="font-anton text-4xl uppercase tracking-wide text-navy m-0">
-            Comparador Operativo Departamental
+            {t("comp.title")}
           </h1>
           <p className="text-sm text-navy-70 mt-1">
-            Contraste de calendarios de 53 semanas entre jurisdicciones. Responde: ¿la temporada crítica de mi territorio coincide con la del territorio vecino?
+            {t("comp.sub")}
           </p>
         </div>
 
         {/* Conclusión generada por regla */}
         <div className="bg-papel border-l-4 border-mostaza border-y border-r border-linea rounded-card p-4">
           <div className="text-[10px] font-bold uppercase tracking-wider text-mostaza font-mono">
-            Diagnóstico Comparativo
+            {t("comp.diag")}
           </div>
           <p className="text-base text-navy font-semibold mt-1">
             {conclusion}
@@ -53,7 +61,7 @@ export default function CompararPage() {
           <div className="bg-papel border border-linea rounded-card p-6 space-y-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-mono uppercase text-navy-70 font-bold">
-                Departamento A:
+                {t("comp.deptA")}
               </label>
               <select
                 value={idA}
@@ -62,7 +70,11 @@ export default function CompararPage() {
               >
                 {data.departamentos.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.nombre} ({d.provincia} — Zona {d.zona})
+                    {t("comp.option", {
+                      nombre: d.nombre,
+                      provincia: d.provincia,
+                      zona: d.zona.toUpperCase(),
+                    })}
                   </option>
                 ))}
               </select>
@@ -72,7 +84,7 @@ export default function CompararPage() {
               <div className="flex justify-between items-baseline mb-2">
                 <span className="font-anton text-2xl text-navy">{deptA.nombre}</span>
                 <span className="text-xs font-mono text-navy-70">
-                  {formatInt(deptA.total)} focos
+                  {t("comp.focos", { n: formatInt(deptA.total, lang) })}
                 </span>
               </div>
               <WeeklyBar
@@ -89,7 +101,7 @@ export default function CompararPage() {
           <div className="bg-papel border border-linea rounded-card p-6 space-y-4">
             <div className="flex flex-col gap-2">
               <label className="text-xs font-mono uppercase text-navy-70 font-bold">
-                Departamento B:
+                {t("comp.deptB")}
               </label>
               <select
                 value={idB}
@@ -98,7 +110,11 @@ export default function CompararPage() {
               >
                 {data.departamentos.map((d) => (
                   <option key={d.id} value={d.id}>
-                    {d.nombre} ({d.provincia} — Zona {d.zona})
+                    {t("comp.option", {
+                      nombre: d.nombre,
+                      provincia: d.provincia,
+                      zona: d.zona.toUpperCase(),
+                    })}
                   </option>
                 ))}
               </select>
@@ -108,7 +124,7 @@ export default function CompararPage() {
               <div className="flex justify-between items-baseline mb-2">
                 <span className="font-anton text-2xl text-navy">{deptB.nombre}</span>
                 <span className="text-xs font-mono text-navy-70">
-                  {formatInt(deptB.total)} focos
+                  {t("comp.focos", { n: formatInt(deptB.total, lang) })}
                 </span>
               </div>
               <WeeklyBar

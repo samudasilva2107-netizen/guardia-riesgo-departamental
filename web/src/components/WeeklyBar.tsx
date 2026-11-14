@@ -1,4 +1,7 @@
+"use client";
+
 import { Departamento, formatInt, ZonaRef } from "@/lib/types";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface WeeklyBarProps {
   semanas: Departamento["semanas"];
@@ -9,6 +12,8 @@ interface WeeklyBarProps {
 }
 
 export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistorico, zonaRef }: WeeklyBarProps) {
+  const { lang, t } = useLanguage();
+
   // Asegurar 53 semanas
   const safeWeeks = Array.from({ length: 53 }, (_, i) => {
     const wNum = i + 1;
@@ -36,7 +41,7 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistoric
             }}
           >
             <span className="text-[10px] uppercase font-bold text-amber-800/80 px-1 block mt-1">
-              Ref. Literatura
+              {t("ficha.refLit")}
             </span>
           </div>
         )}
@@ -66,10 +71,10 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistoric
               >
                 {/* Tooltip */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-1 z-30 pointer-events-none bg-navy text-crema text-[11px] font-mono px-2 py-1 rounded shadow whitespace-nowrap">
-                  Semana {s.w}: {formatInt(s.n)} detecciones
-                  {isNucleo && " (Núcleo 80%)"}
-                  {isTipica && " [Semana Típica]"}
-                  {isMaxHist && " [Máx. Histórico]"}
+                  {t("ficha.tooltip", { w: s.w, n: formatInt(s.n, lang) })}
+                  {isNucleo && ` ${t("ficha.tooltipNucleo")}`}
+                  {isTipica && ` ${t("ficha.tagTipica")}`}
+                  {isMaxHist && ` ${t("ficha.tagMaximo")}`}
                 </div>
 
                 <div
@@ -90,31 +95,31 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistoric
 
       {/* Rótulos del eje X */}
       <div className="flex justify-between text-[11px] font-mono text-navy-70 mt-1 px-1">
-        <span>Semana 1 (Ene)</span>
-        <span>Semana 13 (Abr)</span>
-        <span>Semana 26 (Jul)</span>
-        <span>Semana 39 (Oct)</span>
-        <span>Semana 53 (Dic)</span>
+        <span>{t("ficha.xaxis.1")}</span>
+        <span>{t("ficha.xaxis.13")}</span>
+        <span>{t("ficha.xaxis.26")}</span>
+        <span>{t("ficha.xaxis.39")}</span>
+        <span>{t("ficha.xaxis.53")}</span>
       </div>
 
       {/* Leyenda */}
       <div className="flex flex-wrap items-center gap-4 text-xs text-navy-70 mt-3 pt-2 border-t border-linea">
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 bg-mostaza inline-block rounded-xs" />
-          <span>Núcleo Crítico (80% acumulado)</span>
+          <span>{t("ficha.leyenda.nucleo")}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 bg-alerta inline-block rounded-xs" />
-          <span>Semana Típica (máx. acumulado)</span>
+          <span>{t("ficha.leyenda.tipica")}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="w-3 h-3 bg-navy/20 inline-block rounded-xs" />
-          <span>Actividad Base</span>
+          <span>{t("ficha.leyenda.base")}</span>
         </div>
         {tempRef[0] > 0 && (
           <div className="flex items-center gap-1.5">
             <span className="w-3 h-3 bg-amber-200/70 border border-amber-400 inline-block rounded-xs" />
-            <span>Temporada Esperada (Referencia científica)</span>
+            <span>{t("ficha.leyenda.banda")}</span>
           </div>
         )}
       </div>

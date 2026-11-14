@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Anton, Barlow } from "next/font/google";
+import { LanguageProvider } from "@/components/LanguageProvider";
 import "./globals.css";
 
 const anton = Anton({
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${anton.variable} ${barlow.variable}`}>
       <body className="min-h-screen flex flex-col bg-crema text-navy font-barlow">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

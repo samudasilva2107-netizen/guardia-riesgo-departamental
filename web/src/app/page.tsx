@@ -4,11 +4,14 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Header, Footer } from "@/components/Header";
 import { ChoroplethMap } from "@/components/ChoroplethMap";
+import { useLanguage } from "@/components/LanguageProvider";
+import { I18nKey } from "@/lib/i18n";
 import { CalendarioData, formatGini, formatInt, getGiniNivel, getMesSemana } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
 
 export default function HomePage() {
+  const { lang, t } = useLanguage();
   const data = dataCalendario as CalendarioData;
   const zonas = dataZonas as Record<string, { nombre: string; temporada_ref: number[]; pico_ref: number[] }>;
 
@@ -59,9 +62,9 @@ export default function HomePage() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-anton text-2xl uppercase tracking-wide text-navy">
-              Regímenes Regionales y Zonas
+              {t("home.zonas.title")}
             </h2>
-            <span className="text-xs text-navy-70">4 zonas operativas</span>
+            <span className="text-xs text-navy-70">{t("home.zonas.sub", { n: 4 })}</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -72,7 +75,8 @@ export default function HomePage() {
                 deptsEnZona.length > 0
                   ? deptsEnZona.reduce((acc, d) => acc + d.gini, 0) / deptsEnZona.length
                   : 0;
-              const semaforo = getGiniNivel(avgGini);
+              const semaforo = getGiniNivel(avgGini, lang);
+              const zonaNameKey = `zona.${key}` as I18nKey;
 
               return (
                 <div
@@ -82,18 +86,18 @@ export default function HomePage() {
                   <div className="filete-mostaza absolute top-0 left-0 right-0 rounded-t-card" />
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-widest text-navy-70">
-                      Zona {key.toUpperCase()}
+                      {t("zona.label", { z: key.toUpperCase() })}
                     </span>
-                    <h3 className="font-anton text-xl text-navy mt-1">{z.nombre}</h3>
+                    <h3 className="font-anton text-xl text-navy mt-1">{t(zonaNameKey)}</h3>
                     <p className="text-xs text-navy-70 mt-1">
-                      Temporada ref: sem. {z.temporada_ref[0]}–{z.temporada_ref[1]}
+                      {t("zona.temporadaRef", { a: z.temporada_ref[0], b: z.temporada_ref[1] })}
                     </p>
                   </div>
 
                   <div className="mt-4 pt-3 border-t border-linea flex items-center justify-between">
                     <div>
-                      <div className="text-[10px] font-mono text-navy-70">Detecciones</div>
-                      <div className="font-anton text-lg text-navy">{formatInt(totalZona)}</div>
+                      <div className="text-[10px] font-mono text-navy-70">{t("zona.detecciones")}</div>
+                      <div className="font-anton text-lg text-navy">{formatInt(totalZona, lang)}</div>
                     </div>
                     <span className={`capsule-chip ${semaforo.color}`}>
                       {semaforo.nivel}
@@ -121,16 +125,16 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h2 className="font-anton text-2xl uppercase tracking-wide text-navy">
-                Ranking Departamental de Actividad
+                {t("table.title")}
               </h2>
               <p className="text-xs text-navy-70">
-                Mostrando {departamentosFiltrados.length} de 68 departamentos analizados.
+                {t("table.sub", { a: departamentosFiltrados.length, b: data.departamentos.length })}
               </p>
             </div>
 
             {/* Filtros en Cápsulas */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold text-navy-70 mr-1">Provincia:</span>
+              <span className="text-xs font-bold text-navy-70 mr-1">{t("table.provincia")}</span>
               {["todas", "Corrientes", "Córdoba", "Entre Ríos"].map((p) => (
                 <button
                   key={p}
@@ -141,11 +145,11 @@ export default function HomePage() {
                       : "bg-papel text-navy border-linea hover:border-mostaza"
                   }`}
                 >
-                  {p}
+                  {p === "todas" ? t("table.todas") : p}
                 </button>
               ))}
 
-              <span className="text-xs font-bold text-navy-70 ml-2 mr-1">Zona:</span>
+              <span className="text-xs font-bold text-navy-70 ml-2 mr-1">{t("table.zona")}</span>
               {["todas", "ibera", "delta", "sierras", "agro"].map((z) => (
                 <button
                   key={z}
@@ -156,7 +160,7 @@ export default function HomePage() {
                       : "bg-papel text-navy border-linea hover:border-mostaza"
                   }`}
                 >
-                  {z}
+                  {z === "todas" ? t("table.todas") : z}
                 </button>
               ))}
             </div>
@@ -171,31 +175,31 @@ export default function HomePage() {
                     className="py-3 px-4 cursor-pointer hover:text-navy"
                     onClick={() => handleSort("nombre")}
                   >
-                    Departamento {ordenCampo === "nombre" && (ordenAsc ? "↑" : "↓")}
+                    {t("th.departamento")} {ordenCampo === "nombre" && (ordenAsc ? "↑" : "↓")}
                   </th>
-                  <th className="py-3 px-4">Provincia</th>
-                  <th className="py-3 px-4">Zona</th>
+                  <th className="py-3 px-4">{t("th.provincia")}</th>
+                  <th className="py-3 px-4">{t("th.zona")}</th>
                   <th
                     className="py-3 px-4 text-right cursor-pointer hover:text-navy"
                     onClick={() => handleSort("total")}
                   >
-                    Detecciones {ordenCampo === "total" && (ordenAsc ? "↑" : "↓")}
+                    {t("th.detecciones")} {ordenCampo === "total" && (ordenAsc ? "↑" : "↓")}
                   </th>
-                  <th className="py-3 px-4 text-center">Semana Típica</th>
-                  <th className="py-3 px-4 text-center">Máximo Histórico</th>
-                  <th className="py-3 px-4 text-center">Semanas Núcleo</th>
+                  <th className="py-3 px-4 text-center">{t("th.tipica")}</th>
+                  <th className="py-3 px-4 text-center">{t("th.maximo")}</th>
+                  <th className="py-3 px-4 text-center">{t("th.nucleo")}</th>
                   <th
                     className="py-3 px-4 text-center cursor-pointer hover:text-navy"
                     onClick={() => handleSort("gini")}
                   >
-                    Concentración (Gini) {ordenCampo === "gini" && (ordenAsc ? "↑" : "↓")}
+                    {t("th.gini")} {ordenCampo === "gini" && (ordenAsc ? "↑" : "↓")}
                   </th>
-                  <th className="py-3 px-4 text-right">Ficha</th>
+                  <th className="py-3 px-4 text-right">{t("th.ficha")}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-linea text-sm">
                 {departamentosFiltrados.map((d) => {
-                  const semaforo = getGiniNivel(d.gini);
+                  const semaforo = getGiniNivel(d.gini, lang);
                   return (
                     <tr
                       key={d.id}
@@ -213,23 +217,31 @@ export default function HomePage() {
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-right font-mono font-medium text-navy">
-                        {formatInt(d.total)}
+                        {formatInt(d.total, lang)}
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs">
-                        Sem. {d.semana_tipica.semana} ({getMesSemana(d.semana_tipica.semana)})
+                        {t("table.semMes", {
+                          w: d.semana_tipica.semana,
+                          mes: getMesSemana(d.semana_tipica.semana, lang),
+                        })}
                       </td>
                       <td className="py-2.5 px-4 font-mono text-xs text-navy">
                         <div className="flex items-center justify-between gap-2 whitespace-nowrap">
-                          <span>Sem. {d.maximo_historico.semana} · {d.maximo_historico.anio}</span>
-                          <span className="text-navy-70">{formatInt(d.maximo_historico.detecciones)}</span>
+                          <span>
+                            {t("table.semAnio", {
+                              w: d.maximo_historico.semana,
+                              anio: d.maximo_historico.anio,
+                            })}
+                          </span>
+                          <span className="text-navy-70">{formatInt(d.maximo_historico.detecciones, lang)}</span>
                         </div>
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs text-navy-70">
-                        {d.semanas_nucleo.length} semanas
+                        {t("table.semanas", { n: d.semanas_nucleo.length })}
                       </td>
                       <td className="py-2.5 px-4 text-center">
                         <span className={`capsule-chip ${semaforo.color}`}>
-                          {semaforo.nivel} ({formatGini(d.gini)})
+                          {semaforo.nivel} ({formatGini(d.gini, lang)})
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-right">
@@ -237,7 +249,7 @@ export default function HomePage() {
                           href={`/departamento/${d.id}`}
                           className="capsule-chip border-navy text-navy hover:bg-navy hover:text-crema transition-colors text-[10px]"
                         >
-                          Ver
+                          {t("table.ver")}
                         </Link>
                       </td>
                     </tr>
