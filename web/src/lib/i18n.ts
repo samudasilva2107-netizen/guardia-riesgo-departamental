@@ -145,6 +145,7 @@ export const ES = {
   "met.epocas.body": "antes de abril de 2018 el registro es solo MODIS (Terra/Aqua, 1 km); desde abril de 2018 incluye VIIRS (NOAA-20/21, 375 m; Suomi-NPP excluido). Los escalones de la serie son cambios de instrumento, no necesariamente más fuego.",
   "met.limites.no": "NO",
   "met.limites": "predice incendios · no mide superficie quemada · no está validado contra verdad de campo · las detecciones son anomalías térmicas near-real-time, no perímetros de fuego · el 33,63 % descartado está declarado.",
+  "met.research": "Auditoría de decisiones metodológicas y fuentes (RESEARCH.md):",
 } as const;
 
 export type I18nKey = keyof typeof ES;
@@ -294,6 +295,7 @@ export const EN: Record<I18nKey, string> = {
   "met.epocas.body": "before April 2018 the record is MODIS only (Terra/Aqua, 1 km); from April 2018 it includes VIIRS (NOAA-20/21, 375 m; Suomi-NPP excluded). Steps in the series are instrument changes, not necessarily more fire.",
   "met.limites.no": "DOES NOT",
   "met.limites": "predict fire · does not measure burned area · is not validated against ground truth · detections are near-real-time thermal anomalies, not fire perimeters · the 33.63% discarded is declared.",
+  "met.research": "Methodological decisions and sources audit (RESEARCH.md):",
 };
 
 export function translate(lang: Lang, key: I18nKey, vars?: Record<string, string | number>): string {

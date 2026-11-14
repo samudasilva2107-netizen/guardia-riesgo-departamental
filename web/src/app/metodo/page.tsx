@@ -30,16 +30,29 @@ export default function MetodoPage() {
             <br /><br />
             Third-party inputs: NASA FIRMS MODIS C6.1 and VIIRS C2 (public), geoBoundaries gbOpen ARG ADM2 boundaries (CC BY 4.0), INDEC/georef department names (public).
           </div>
-          <div className="text-xs font-mono text-navy pt-1">
-            {t("footer.source")}{" "}
-            <a
-              href="https://github.com/samudasilva2107-netizen/guardia-riesgo-departamental"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-1 underline-offset-2 hover:text-mostaza"
-            >
-              https://github.com/samudasilva2107-netizen/guardia-riesgo-departamental
-            </a>
+          <div className="text-xs font-mono text-navy pt-1 space-y-1">
+            <div>
+              {t("footer.source")}{" "}
+              <a
+                href="https://github.com/samudasilva2107-netizen/guardia-riesgo-departamental"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-1 underline-offset-2 hover:text-mostaza"
+              >
+                https://github.com/samudasilva2107-netizen/guardia-riesgo-departamental
+              </a>
+            </div>
+            <div>
+              {t("met.research")}{" "}
+              <a
+                href="https://github.com/samudasilva2107-netizen/guardia-riesgo-departamental/blob/feat/guardia-v1/docs/RESEARCH.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-1 underline-offset-2 hover:text-mostaza"
+              >
+                docs/RESEARCH.md
+              </a>
+            </div>
           </div>
         </section>
 

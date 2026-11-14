@@ -69,6 +69,7 @@ cd web && npm install && npm run build
 │   ├── calendario.mock.json      # Mock inicial usado para desbloquear el front
 │   └── calendario.json           # Salida real consolidada (694.201 focos)
 ├── docs/
+│   ├── RESEARCH.md               # Decisiones metodológicas y fuentes (EN)
 │   ├── METHOD.md                 # Fundamento matemático, citas y límites
 │   └── ORIGEN-DATOS.md           # Declaración de procedencia de insumos
 ├── scripts/
@@ -84,6 +85,14 @@ cd web && npm install && npm run build
         ├── components/           # Header, WeeklyBar, ChoroplethMap
         └── lib/                  # types.ts, calendario.json, zonas.json, mapa_paths.json
 ```
+
+---
+
+## Documentación
+
+- [docs/RESEARCH.md](docs/RESEARCH.md) — decisiones metodológicas y fuentes
+- [docs/METHOD.md](docs/METHOD.md) — fundamento matemático, citas y límites
+- [docs/ORIGEN-DATOS.md](docs/ORIGEN-DATOS.md) — declaración de procedencia de insumos
 
 ---
 
