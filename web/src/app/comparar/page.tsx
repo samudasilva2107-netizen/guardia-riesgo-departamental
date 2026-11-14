@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Header, Footer } from "@/components/Header";
 import { WeeklyBar } from "@/components/WeeklyBar";
-import { CalendarioData, ZonaRef } from "@/lib/types";
+import { CalendarioData, formatInt, ZonaRef } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
 
@@ -72,7 +72,7 @@ export default function CompararPage() {
               <div className="flex justify-between items-baseline mb-2">
                 <span className="font-anton text-2xl text-navy">{deptA.nombre}</span>
                 <span className="text-xs font-mono text-navy-70">
-                  {deptA.total.toLocaleString()} focos
+                  {formatInt(deptA.total)} focos
                 </span>
               </div>
               <WeeklyBar
@@ -108,7 +108,7 @@ export default function CompararPage() {
               <div className="flex justify-between items-baseline mb-2">
                 <span className="font-anton text-2xl text-navy">{deptB.nombre}</span>
                 <span className="text-xs font-mono text-navy-70">
-                  {deptB.total.toLocaleString()} focos
+                  {formatInt(deptB.total)} focos
                 </span>
               </div>
               <WeeklyBar

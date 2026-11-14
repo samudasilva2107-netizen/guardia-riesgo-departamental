@@ -105,3 +105,11 @@ export function getMesSemana(semanaIso: number): string {
   const mesIdx = Math.min(11, Math.max(0, Math.floor(((semanaIso - 1) * 12) / 53)));
   return MESES_ES[mesIdx];
 }
+
+export function formatInt(n: number): string {
+  return n.toLocaleString("es-AR");
+}
+
+export function formatGini(g: number): string {
+  return g.toFixed(2).replace(".", ",");
+}

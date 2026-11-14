@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Departamento, getGiniNivel, getMesSemana } from "@/lib/types";
+import { Departamento, formatGini, formatInt, getGiniNivel, getMesSemana } from "@/lib/types";
 import mapaData from "@/lib/mapa_paths.json";
 
 interface ChoroplethMapProps {
@@ -127,7 +127,7 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
             </div>
             <div className="font-mono text-[11px] space-y-0.5 border-t border-navy-70 pt-1.5">
               <div>
-                Concentración: <strong>{hoveredSemaforo.nivel}</strong> ({hoveredDept.gini.toFixed(2)})
+                Concentración: <strong>{hoveredSemaforo.nivel}</strong> ({formatGini(hoveredDept.gini)})
               </div>
               <div>
                 Núcleo crítico: <strong>{hoveredDept.semanas_nucleo.length} semanas</strong>
@@ -142,12 +142,16 @@ export function ChoroplethMap({ departamentos, filteredIds }: ChoroplethMapProps
                 Semana típica: <strong>Sem. {hoveredDept.semana_tipica.semana} ({getMesSemana(hoveredDept.semana_tipica.semana)})</strong>
               </div>
               <div>
-                Máximo histórico: <strong>s{hoveredDept.maximo_historico.semana}/{hoveredDept.maximo_historico.anio} ({hoveredDept.maximo_historico.detecciones.toLocaleString()})</strong>
+                Máximo histórico: <strong>Sem. {hoveredDept.maximo_historico.semana} · {hoveredDept.maximo_historico.anio} ({formatInt(hoveredDept.maximo_historico.detecciones)})</strong>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      <p className="text-xs text-navy-70 mt-2.5">
+        El beige indica régimen disperso, no ausencia de datos.
+      </p>
     </div>
   );
 }

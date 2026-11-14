@@ -1,4 +1,4 @@
-import { Departamento, ZonaRef } from "@/lib/types";
+import { Departamento, formatInt, ZonaRef } from "@/lib/types";
 
 interface WeeklyBarProps {
   semanas: Departamento["semanas"];
@@ -66,7 +66,7 @@ export function WeeklyBar({ semanas, semanasNucleo, semanaTipica, maximoHistoric
               >
                 {/* Tooltip */}
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-1 z-30 pointer-events-none bg-navy text-crema text-[11px] font-mono px-2 py-1 rounded shadow whitespace-nowrap">
-                  Semana {s.w}: {s.n.toLocaleString()} detecciones
+                  Semana {s.w}: {formatInt(s.n)} detecciones
                   {isNucleo && " (Núcleo 80%)"}
                   {isTipica && " [Semana Típica]"}
                   {isMaxHist && " [Máx. Histórico]"}

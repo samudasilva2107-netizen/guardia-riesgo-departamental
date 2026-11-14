@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Header, Footer } from "@/components/Header";
 import { ChoroplethMap } from "@/components/ChoroplethMap";
-import { CalendarioData, getGiniNivel, getMesSemana } from "@/lib/types";
+import { CalendarioData, formatGini, formatInt, getGiniNivel, getMesSemana } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
 
@@ -93,7 +93,7 @@ export default function HomePage() {
                   <div className="mt-4 pt-3 border-t border-linea flex items-center justify-between">
                     <div>
                       <div className="text-[10px] font-mono text-navy-70">Detecciones</div>
-                      <div className="font-anton text-lg text-navy">{totalZona.toLocaleString()}</div>
+                      <div className="font-anton text-lg text-navy">{formatInt(totalZona)}</div>
                     </div>
                     <span className={`capsule-chip ${semaforo.color}`}>
                       {semaforo.nivel}
@@ -213,20 +213,23 @@ export default function HomePage() {
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-right font-mono font-medium text-navy">
-                        {d.total.toLocaleString()}
+                        {formatInt(d.total)}
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs">
                         Sem. {d.semana_tipica.semana} ({getMesSemana(d.semana_tipica.semana)})
                       </td>
-                      <td className="py-2.5 px-4 text-center font-mono text-xs text-navy-70">
-                        s{d.maximo_historico.semana}/{d.maximo_historico.anio} ({d.maximo_historico.detecciones.toLocaleString()})
+                      <td className="py-2.5 px-4 font-mono text-xs text-navy">
+                        <div className="flex items-center justify-between gap-2 whitespace-nowrap">
+                          <span>Sem. {d.maximo_historico.semana} · {d.maximo_historico.anio}</span>
+                          <span className="text-navy-70">{formatInt(d.maximo_historico.detecciones)}</span>
+                        </div>
                       </td>
                       <td className="py-2.5 px-4 text-center font-mono text-xs text-navy-70">
                         {d.semanas_nucleo.length} semanas
                       </td>
                       <td className="py-2.5 px-4 text-center">
                         <span className={`capsule-chip ${semaforo.color}`}>
-                          {semaforo.nivel} ({d.gini.toFixed(2)})
+                          {semaforo.nivel} ({formatGini(d.gini)})
                         </span>
                       </td>
                       <td className="py-2.5 px-4 text-right">

@@ -4,6 +4,8 @@ import { Header, Footer } from "@/components/Header";
 import { WeeklyBar } from "@/components/WeeklyBar";
 import {
   CalendarioData,
+  formatGini,
+  formatInt,
   getGiniNivel,
   getMesSemana,
   getRecomendacionOperativa,
@@ -71,7 +73,7 @@ export default function DepartamentoPage({ params }: Props) {
 
           <div className="flex items-center gap-3">
             <span className={`capsule-chip ${semaforo.color}`}>
-              Gini {dept.gini.toFixed(2)} — {semaforo.nivel}
+              Gini {formatGini(dept.gini)} — {semaforo.nivel}
             </span>
             <a
               href={`/api/export/${dept.id}`}
@@ -103,7 +105,7 @@ export default function DepartamentoPage({ params }: Props) {
               Distribución Histórica por Semana ISO (1..53)
             </h2>
             <span className="text-xs font-mono text-navy-70">
-              {dept.total.toLocaleString()} detecciones totales
+              {formatInt(dept.total)} detecciones totales
             </span>
           </div>
 
@@ -158,12 +160,12 @@ export default function DepartamentoPage({ params }: Props) {
               Sem. {dept.semana_tipica.semana} ({getMesSemana(dept.semana_tipica.semana)})
             </div>
             <p className="text-xs text-navy-70 mt-1">
-              Mayor acumulado histórico: <strong>{dept.semana_tipica.detecciones.toLocaleString()}</strong> detecciones sumadas en toda la serie.
+              Mayor acumulado histórico: <strong>{formatInt(dept.semana_tipica.detecciones)}</strong> detecciones sumadas en toda la serie.
             </p>
             <div className="mt-3 pt-2 border-t border-linea font-mono text-xs text-navy">
               <span className="text-alerta font-bold">Máximo histórico:</span>{" "}
-              s{dept.maximo_historico.semana}/{dept.maximo_historico.anio} con{" "}
-              <strong>{dept.maximo_historico.detecciones.toLocaleString()}</strong> detecciones
+              Sem. {dept.maximo_historico.semana} · {dept.maximo_historico.anio} con{" "}
+              <strong>{formatInt(dept.maximo_historico.detecciones)}</strong> detecciones
             </div>
           </div>
 
