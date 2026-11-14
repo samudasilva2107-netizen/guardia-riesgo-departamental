@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --crema: #F2E8D5;
+  --papel: #FBF7EE;
+  --navy: #16274D;
+  --navy-70: #4A5878;
+  --mostaza: #F6B50C;
+  --alerta: #C62828;
+  --linea: #D9CFB8;
+}
+
+body {
+  background-color: var(--crema);
+  color: var(--navy);
+  font-family: var(--font-barlow), sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Gestos de diseño GUARDIA */
+.header-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+.filete-mostaza {
+  height: 2px;
+  background-color: var(--mostaza);
+  width: 100%;
+}
+
+.capsule-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-width: 1.5px;
+}
+
+/* Achurado diagonal para estados sin datos */
+.bg-achurado {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(217, 207, 184, 0.4),
+    rgba(217, 207, 184, 0.4) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
