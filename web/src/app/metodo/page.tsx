@@ -69,7 +69,7 @@ export default function MetodoPage() {
               ❌ <strong>No es superficie quemada ni precisión validada en campo:</strong> El sensor satelital detecta anomalías térmicas activas en el instante de sobrepaso orbital; no mide hectáreas finales quemadas.
             </p>
             <p>
-              ❌ <strong>Los aumentos bruscos en 2012, 2018 y 2024 no son más incendios:</strong> Representan la incorporación escalonada de satélites (Suomi-NPP, NOAA-20, NOAA-21) a la constelación.
+              ❌ <strong>Los saltos entre épocas satelitales no son más incendios:</strong> En los datos reales hay dos épocas: <strong>antes de abril de 2018</strong> (solo MODIS Terra/Aqua, 1 km) y <strong>desde abril de 2018</strong> (MODIS + VIIRS NOAA-20/21 a 375 m; Suomi-NPP excluido).
             </p>
           </div>
         </section>

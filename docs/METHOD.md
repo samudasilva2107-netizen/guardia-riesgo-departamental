@@ -57,7 +57,7 @@ Calculado sobre el vector de 53 semanas acumuladas:
 - **No predice incendios:** Describe la estacionalidad y concentración histórica observada.
 - **No es tiempo real:** Las detecciones satelitales son near-real-time y la aplicación evalúa ciclos históricos consolidados.
 - **No es superficie quemada ni precisión validada en campo:** El satélite registra anomalías térmicas instantáneas al momento del sobrepaso orbital; no mide hectáreas quemadas ni cuenta con calibración terrestre.
-- **Los aumentos bruscos en 2012, 2018 y 2024 no son más incendios:** Corresponden a la incorporación de nuevas plataformas a la constelación satelital.
+- **Los saltos entre épocas satelitales no son más incendios:** En la serie hay exactamente dos épocas instrumentales: **antes de abril de 2018** (solo MODIS Terra/Aqua, 1 km) y **desde abril de 2018** (MODIS + VIIRS NOAA-20/21 a 375 m, con Suomi-NPP excluido). El escalón a partir de 2018 refleja la incorporación de VIIRS.
 
 ---
 

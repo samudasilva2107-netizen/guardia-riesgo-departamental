@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Header, Footer } from "@/components/Header";
+import { ChoroplethMap } from "@/components/ChoroplethMap";
 import { CalendarioData, getGiniNivel } from "@/lib/types";
 import dataCalendario from "@/lib/calendario.json";
 import dataZonas from "@/lib/zonas.json";
@@ -106,6 +107,14 @@ export default function HomePage() {
 
         {/* Separador filete */}
         <div className="filete-mostaza" />
+
+        {/* Mapa coroplético de los 68 departamentos (polígonos por Gini, sin puntos ni tiles) */}
+        <section>
+          <ChoroplethMap
+            departamentos={data.departamentos}
+            filteredIds={new Set(departamentosFiltrados.map((d) => d.id))}
+          />
+        </section>
 
         {/* Tabla de 68 Departamentos */}
         <section className="space-y-4">
