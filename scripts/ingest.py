@@ -5,10 +5,11 @@ Extrae y particiona los registros crudos de NASA FIRMS para Corrientes, Córdoba
 import csv
 import glob
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-CACHE_DIR = Path("../ignis-fire-calendar/cache_firms")
+CACHE_DIR = Path(os.environ.get("FIRMS_CACHE_DIR", "data/cache_firms"))
 OUT_RAW = Path("data/raw")
 
 # BBox: (lon_oeste, lat_sur, lon_este, lat_norte)
